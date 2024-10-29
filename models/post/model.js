@@ -2,6 +2,11 @@ const mongoose = require('mongoose');
 
 const postSchema = new mongoose.Schema({
 
+    userId: {
+        type: String,
+        required: true,
+    },
+
     cardApiId: {
         type: String,
         required: true,
