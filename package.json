@@ -4,17 +4,22 @@
   "description": "Backend API for trading-post web app",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon index.js"
+    "start": "nodemon index.js",
+    "docs": "jsdoc -c jsdoc.json"
   },
   "author": "Vincent",
   "license": "ISC",
   "dependencies": {
+    "aws-sdk": "^2.1692.0",
     "bcrypt": "^5.1.1",
     "cors": "^2.8.5",
-    "dotenv": "^16.4.5",
+    "dotenv": "^16.5.0",
     "express": "^4.21.1",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.7.2",
     "nodemon": "^3.1.7"
+  },
+  "devDependencies": {
+    "jsdoc": "^4.0.4"
   }
 }

@@ -1,11 +1,18 @@
 const Post = require("../../models/post/model");
+const mongoose = require('mongoose');
 
 const createPostHandler = async (req, res) => {
   try {
     console.log("CreatePostHandler userId: ", req.userId);
+    console.log("req body: ", req.body)
     const newPost = new Post({
       userId: req.body.userId,
       cardApiId: req.body.cardApiId,
+      cardName: req.body.cardName,
+      setName: req.body.setName,
+      setNumber: req.body.setNumber,
+      setTotal: req.body.setTotal,
+      setId: req.body.setId,
       cardFrontPicture: req.body.cardFrontPicture,
       cardBackPicture: req.body.cardBackPicture,
       wants: req.body.wants,
@@ -18,6 +25,11 @@ const createPostHandler = async (req, res) => {
       res.status(201).json({
         userId: newPost.userId,
         _cardApiId: newPost.cardApiId,
+        cardName: newPost.cardName,
+        setName: newPost.setName,
+        setNumber: newPost.setNumber,
+        setTotal: newPost.setTotal,
+        setId: newPost.setId,
         cardFrontPicture: newPost.cardFrontPicture,
         cardBackPicture: newPost.cardBackPicture,
         wants: newPost.wants,
@@ -35,7 +47,8 @@ const createPostHandler = async (req, res) => {
 const getOwnPostsHandler = async (req, res) => {
   try {
     const { userId } = req.body; 
-    const posts = await Post.find({ userId: userId }); 
+    const posts = await Post.find({ userId: new mongoose.Types.ObjectId(userId) }).populate("userId", "userName"); 
+    console.log(posts);
     res.status(200).json(posts);
   } catch (error) {
     console.log("Error in getting own posts: ", error.message);
@@ -45,11 +58,13 @@ const getOwnPostsHandler = async (req, res) => {
 
 const getOthersPostsHandler = async (req, res) => {
   try {
+    console.log("IN GET OTHERS POSTS");
     const { userId } = req.body; 
-    const posts = await Post.find({ userId: { $ne: userId } });
+    const posts = await Post.find({ userId: { $ne: new mongoose.Types.ObjectId(userId) } }).populate("userId", "userName"); 
+    //console.log(posts);
     res.status(200).json(posts);
   } catch (error) {
-    console.log("Error in getting other posts: ", error.message);
+    //console.log("Error in getting other posts: ", error.message);
     res.status(500).json({ error: error.message });
   }
 };
@@ -73,9 +88,9 @@ const getPostHandler = async (req, res) => {
   try {
     // Extract postId from the URL parameters
     const postId = req.params.id;
-
+    console.log("Searching for post: ", req.params.id)
     // Fetch the post by its _id from the database
-    const post = await Post.findById(postId);
+    const post = await Post.findById(postId).populate("userId", "userName profilePicture"); 
 
     // If no post is found, return a 404 response
     if (!post) {

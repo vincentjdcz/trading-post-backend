@@ -1,6 +1,10 @@
 const mongoose = require("mongoose");
 
 const userSchema = new mongoose.Schema({
+  userName: {
+    type: String,
+    required: true,
+  },
   firstName: {
     type: String,
     required: true,
@@ -22,6 +26,10 @@ const userSchema = new mongoose.Schema({
     type: [String], // Array of strings
     default: [],    // Optional: starts as an empty array if not provided
   },
+  profilePicture: {
+    type: String,
+    default: "",
+  }
 }, {timestamps: true});
 
 const User = mongoose.model("User", userSchema);

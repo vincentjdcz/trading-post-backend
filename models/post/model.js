@@ -3,11 +3,37 @@ const mongoose = require('mongoose');
 const postSchema = new mongoose.Schema({
 
     userId: {
-        type: String,
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
         required: true,
     },
 
     cardApiId: {
+        type: String,
+        required: true,
+    },
+
+    cardName: {
+        type: String,
+        required: true,
+    },
+
+    setName: {
+        type: String,
+        required: true,
+    },
+
+    setNumber: {
+        type: String,
+        required: true,
+    },
+
+    setTotal: {
+        type: String,
+        required: true,
+    },
+
+    setId: {
         type: String,
         required: true,
     },
@@ -32,6 +58,10 @@ const postSchema = new mongoose.Schema({
         type: [String],
         default: [],
         required: true
+    },
+    status: {
+        type: String,
+        default: "Open" //either Open or Resolved
     },
 
 })
